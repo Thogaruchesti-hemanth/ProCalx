@@ -22,6 +22,7 @@ import '../screens/percentage_calculator_screen.dart';
 import '../screens/proportion_calculator_screen.dart';
 import '../screens/ratios_calculator_screen.dart';
 import '../screens/temperature_conversion_screen.dart';
+import '../screens/time_conversion_screen.dart';
 import '../screens/time_intervel_screen.dart';
 import '../screens/volume_calculation_Screen.dart';
 import '../screens/volume_conversion_screen.dart';
@@ -127,6 +128,9 @@ class SubcategoryTile extends StatelessWidget {
         break;
       case 'area':
         targetScreen = AreaConversionScreen(isDarkMode: isDarkMode);
+        break;
+      case 'time conversion':
+        targetScreen = TimeConversionScreen(isDarkMode: isDarkMode);
         break;
       default:
         targetScreen = null;
