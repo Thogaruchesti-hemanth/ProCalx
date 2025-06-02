@@ -8,38 +8,24 @@ class AccelerationScreen extends StatefulWidget {
   _AccelerationScreenState createState() => _AccelerationScreenState();
 }
 
-class _AccelerationScreenState extends State<AccelerationScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
+class _AccelerationScreenState extends State<AccelerationScreen> {
   double inputValue = 0.0;
   String fromUnit = 'm/s²';
   String toUnit = 'km/h²';
 
-  final List<String> units = ['m/s²', 'km/h²', 'ft/s²', 'mi/h²'];
+  final List<String> units = ['m/s²', 'km/h²', 'ft/s²', 'mi/h²', 'g'];
 
   final Map<String, double> conversionFactors = {
     'm/s²': 1.0,
-    'km/h²': 12960.0,
-    'ft/s²': 3.28084,
-    'mi/h²': 0.621371,
+    'km/h²': 1 / 12960.0,
+    'ft/s²': 1 / 3.28084,
+    'mi/h²': 1 / 1609.344,
+    'g': 1 / 9.80665,
   };
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   double convertAcceleration(double value, String from, String to) {
-    double valueInBaseUnit = value * conversionFactors[from]!;
-    return valueInBaseUnit / conversionFactors[to]!;
+    double valueInMS2 = value * (1 / conversionFactors[from]!);
+    return valueInMS2 * conversionFactors[to]!;
   }
 
   @override
@@ -56,146 +42,55 @@ class _AccelerationScreenState extends State<AccelerationScreen>
           'Acceleration Converter',
           style: TextStyle(color: textColor),
         ),
-        actions: [
-          Icon(Icons.close, color: textColor),
-          SizedBox(width: 8),
-          Icon(Icons.more_vert, color: textColor),
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: textColor,
-          tabs: [Tab(text: 'Calculator'), Tab(text: 'Converter')],
-        ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [buildCalculatorTab(textColor), buildConverterTab(textColor)],
-      ),
-    );
-  }
-
-  Widget buildCalculatorTab(Color textColor) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Text(
-            'Enter Acceleration to Calculate',
-            style: TextStyle(
-              color: textColor,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          TextField(
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            onChanged: (value) {
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            buildInputField(textColor, 'Enter Acceleration', inputValue, (
+              value,
+            ) {
               setState(() {
                 inputValue = double.tryParse(value) ?? 0.0;
               });
-            },
-            style: TextStyle(color: textColor),
-            decoration: InputDecoration(
-              labelText: 'Enter value',
-              labelStyle: TextStyle(color: textColor),
-              filled: true,
-              fillColor:
-                  widget.isDarkMode ? Colors.grey[800] : Colors.grey[200],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+            }),
+            SizedBox(height: 20),
+            buildUnitPicker(textColor, 'From', fromUnit, (newValue) {
+              setState(() {
+                fromUnit = newValue!;
+              });
+            }),
+            SizedBox(height: 20),
+            buildUnitPicker(textColor, 'To', toUnit, (newValue) {
+              setState(() {
+                toUnit = newValue!;
+              });
+            }),
+            SizedBox(height: 30),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color:
+                    widget.isDarkMode ? Colors.grey[900] : Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildResultRow(
+                    'Converted Value:',
+                    '${convertAcceleration(inputValue, fromUnit, toUnit).toStringAsFixed(5)} $toUnit',
+                    textColor,
+                  ),
+                  SizedBox(height: 10),
+                  buildResultRow('From:', '$inputValue $fromUnit', textColor),
+                  SizedBox(height: 10),
+                  buildResultRow('To:', '$toUnit', textColor),
+                ],
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              double result = convertAcceleration(inputValue, 'm/s²', 'km/h²');
-              showDialog(
-                context: context,
-                builder:
-                    (context) => AlertDialog(
-                      title: Text('Result'),
-                      content: Text('Converted Acceleration: $result km/h²'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('OK'),
-                        ),
-                      ],
-                    ),
-              );
-            },
-            child: Text('Calculate'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  widget.isDarkMode ? Colors.blue[700] : Colors.blue[500],
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildConverterTab(Color textColor) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Text(
-            'Select Units to Convert',
-            style: TextStyle(
-              color: textColor,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          buildUnitPicker(textColor, 'From', fromUnit, (newValue) {
-            setState(() {
-              fromUnit = newValue!;
-            });
-          }),
-          SizedBox(height: 20),
-          buildUnitPicker(textColor, 'To', toUnit, (newValue) {
-            setState(() {
-              toUnit = newValue!;
-            });
-          }),
-          SizedBox(height: 20),
-          buildInputField(textColor, 'Enter value', inputValue, (value) {
-            setState(() {
-              inputValue = double.tryParse(value) ?? 0.0;
-            });
-          }),
-          SizedBox(height: 40),
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color:
-                  widget.isDarkMode ? Colors.grey[900] : Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildResultRow(
-                  'Converted Value:',
-                  '${convertAcceleration(inputValue, fromUnit, toUnit).toStringAsFixed(4)} $toUnit',
-                  textColor,
-                ),
-                SizedBox(height: 10),
-                buildResultRow('From:', '$inputValue $fromUnit', textColor),
-                SizedBox(height: 10),
-                buildResultRow('To:', '$toUnit', textColor),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -219,7 +114,8 @@ class _AccelerationScreenState extends State<AccelerationScreen>
           onChanged: onChanged,
           style: TextStyle(color: textColor, fontSize: 18),
           decoration: InputDecoration(
-            hintText: 'Enter value',
+            hintText: 'e.g. 9.8',
+            hintStyle: TextStyle(color: Colors.grey),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             filled: true,
             fillColor: widget.isDarkMode ? Colors.grey[800] : Colors.grey[200],
@@ -257,7 +153,7 @@ class _AccelerationScreenState extends State<AccelerationScreen>
             underline: SizedBox(),
             dropdownColor: widget.isDarkMode ? Colors.grey[850] : Colors.white,
             items:
-                units.map<DropdownMenuItem<String>>((String value) {
+                units.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value, style: TextStyle(color: textColor)),

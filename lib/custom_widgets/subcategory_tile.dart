@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_calculator/screens/area_conversion_screen.dart';
 import 'package:smart_calculator/screens/color_code_conversion_screen.dart';
 import 'package:smart_calculator/screens/data_conversion_screen.dart';
 import 'package:smart_calculator/screens/json_formatter_screen.dart';
@@ -85,10 +86,10 @@ class SubcategoryTile extends StatelessWidget {
       case 'fractions':
         targetScreen = FractionScreen(isDarkMode: isDarkMode);
         break;
-      case 'area':
+      case 'shape':
         targetScreen = AreaCalculatorScreen(isDarkMode: isDarkMode);
         break;
-      case 'volume':
+      case 'body':
         targetScreen = VolumeCalculatorScreen(isDarkMode: isDarkMode);
         break;
       case 'length':
@@ -119,6 +120,9 @@ class SubcategoryTile extends StatelessWidget {
         break;
       case 'acceleration':
         targetScreen = AccelerationScreen(isDarkMode: isDarkMode);
+        break;
+      case 'area':
+        targetScreen = AreaConversionScreen(isDarkMode: isDarkMode);
         break;
       default:
         targetScreen = null;

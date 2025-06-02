@@ -28,13 +28,12 @@ final Map<String, List<String>> subcategoryMap = {
     'Equations',
     'Fractions',
   ],
-  'Geometry': ['Area', 'Volume'],
+  'Geometry': ['Shape', 'Body'],
   'Unit Converters': [
     'Length',
     'Weight',
     'Temperature',
     'Acceleration',
-    'Angle',
     'Area',
     'Data Storage',
     'data transfer',
@@ -107,11 +106,14 @@ final Map<String, String> subcategoryIcons = {
   'Equations': '∑',
   'Fractions': '🍰',
   'Area': '🧱',
+  'Shape': '🔷',
   'Volume': '🧊',
+  'Body': '🔲',
   'Data Conversion': '🔢',
   'Base64 Converter': '📦',
   'JsonMate': '🧰',
   'Color Code Converter': '🎨',
+  'Acceleration': '🚗',
 };
 
 final buttonLabels = [
