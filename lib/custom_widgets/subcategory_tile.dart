@@ -5,6 +5,7 @@ import 'package:smart_calculator/screens/color_code_conversion_screen.dart';
 import 'package:smart_calculator/screens/data_conversion_screen.dart';
 import 'package:smart_calculator/screens/interest_calculation_screen.dart';
 import 'package:smart_calculator/screens/json_formatter_screen.dart';
+import 'package:smart_calculator/screens/loan_calculation_screen.dart';
 
 import '../../provider/theme_provider.dart';
 import '../data.dart';
@@ -135,6 +136,9 @@ class SubcategoryTile extends StatelessWidget {
         break;
       case 'interest':
         targetScreen = InterestCalculatorScreen(isDarkMode: isDarkMode);
+        break;
+      case 'loan':
+        targetScreen = LoanCalculatorScreen(isDarkMode: isDarkMode);
         break;
       default:
         targetScreen = null;
