@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_calculator/screens/acceleration_calculator_screen.dart';
 import 'package:smart_calculator/screens/age_calculator_screen.dart';
+import 'package:smart_calculator/screens/average_calculator_screen.dart';
 import 'package:smart_calculator/screens/percentage_calculator_screen.dart';
 // import 'package:smart_calculator/screens/temparature_conversion_screen.dart';
 import 'package:smart_calculator/screens/time_intervel_screen.dart';
@@ -70,6 +71,9 @@ class SubcategoryTile extends StatelessWidget {
           switch (subcategory) {
             case 'Percentage':
               targetScreen = PercentageScreen(isDarkMode: isDarkMode);
+              break;
+            case 'Average':
+              targetScreen = AverageScreen(isDarkMode: isDarkMode);
               break;
             case 'BMI':
               targetScreen = BMIScreen(isDarkMode: isDarkMode);
