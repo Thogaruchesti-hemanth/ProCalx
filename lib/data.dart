@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 final List<String> categories = [
@@ -97,6 +95,7 @@ final Map<String, String> subcategoryIcons = {
   'Age Calculator': '🎂',
   'Time Interval': '⌚',
   'add & subtract': '⌛',
+  'Ratio': '⚖️',
 };
 
 final buttonLabels = [
