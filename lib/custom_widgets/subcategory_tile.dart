@@ -13,6 +13,7 @@ import '../data.dart';
 import '../screens/add_and_subtract_screen.dart';
 import '../screens/bmi_screen.dart';
 import '../screens/length_convertor_screen.dart';
+import '../screens/proportion_calculator_screen.dart';
 import '../screens/weight_conversion_screen.dart'; // Make sure subcategoryIcons and subcategoryColors are defined
 
 class SubcategoryTile extends StatelessWidget {
@@ -74,6 +75,9 @@ class SubcategoryTile extends StatelessWidget {
               break;
             case 'Average':
               targetScreen = AverageScreen(isDarkMode: isDarkMode);
+              break;
+            case 'Proportion':
+              targetScreen = ProportionScreen(isDarkMode: isDarkMode);
               break;
             case 'BMI':
               targetScreen = BMIScreen(isDarkMode: isDarkMode);
