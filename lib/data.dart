@@ -96,6 +96,7 @@ final Map<String, String> subcategoryIcons = {
   'Time Interval': '⌚',
   'add & subtract': '⌛',
   'Ratio': '⚖️',
+  'Equations': '∑',
 };
 
 final buttonLabels = [
