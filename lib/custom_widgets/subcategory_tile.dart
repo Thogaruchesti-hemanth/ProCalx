@@ -13,6 +13,7 @@ import '../data.dart';
 import '../screens/Equation_solver_screen.dart';
 import '../screens/add_and_subtract_screen.dart';
 import '../screens/bmi_screen.dart';
+import '../screens/fraction_calculator_screen.dart';
 import '../screens/length_convertor_screen.dart';
 import '../screens/proportion_calculator_screen.dart';
 import '../screens/ratios_calculator_screen.dart';
@@ -86,6 +87,9 @@ class SubcategoryTile extends StatelessWidget {
               break;
             case 'Equations':
               targetScreen = EquationSolverScreen(isDarkMode: isDarkMode);
+              break;
+            case 'Fractions':
+              targetScreen = FractionScreen(isDarkMode: isDarkMode);
               break;
             case 'BMI':
               targetScreen = BMIScreen(isDarkMode: isDarkMode);
