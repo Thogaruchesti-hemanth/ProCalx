@@ -97,6 +97,7 @@ final Map<String, String> subcategoryIcons = {
   'add & subtract': '⌛',
   'Ratio': '⚖️',
   'Equations': '∑',
+  'Fractions': '🍰',
 };
 
 final buttonLabels = [
