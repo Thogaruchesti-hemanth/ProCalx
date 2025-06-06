@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_calculator/screens/Area_calculator_screen.dart';
 import 'package:smart_calculator/screens/acceleration_calculator_screen.dart';
 import 'package:smart_calculator/screens/age_calculator_screen.dart';
 import 'package:smart_calculator/screens/average_calculator_screen.dart';
@@ -90,6 +91,9 @@ class SubcategoryTile extends StatelessWidget {
               break;
             case 'Fractions':
               targetScreen = FractionScreen(isDarkMode: isDarkMode);
+              break;
+            case 'Area':
+              targetScreen = AreaCalculatorScreen(isDarkMode: isDarkMode);
               break;
             case 'BMI':
               targetScreen = BMIScreen(isDarkMode: isDarkMode);

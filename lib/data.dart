@@ -21,7 +21,7 @@ final Map<String, List<String>> subcategoryMap = {
     'Equations',
     'Fractions',
   ],
-  'Geometry': ['Shapes', 'body'],
+  'Geometry': ['Area', 'body'],
   'Unit Converters': [
     'Length',
     'Weight',
@@ -98,6 +98,7 @@ final Map<String, String> subcategoryIcons = {
   'Ratio': '⚖️',
   'Equations': '∑',
   'Fractions': '🍰',
+  'Area': '🧱',
 };
 
 final buttonLabels = [
