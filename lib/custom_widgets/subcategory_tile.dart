@@ -6,9 +6,7 @@ import 'package:smart_calculator/screens/area_calculator_screen.dart';
 import 'package:smart_calculator/screens/average_calculator_screen.dart';
 import 'package:smart_calculator/screens/percentage_calculator_screen.dart';
 // import 'package:smart_calculator/screens/temparature_conversion_screen.dart';
-import 'package:smart_calculator/screens/time_intervel_screen.dart';
-import 'package:smart_calculator/screens/volume_calculation_Screen.dart';
-import 'package:smart_calculator/screens/volume_conversion_screen.dart';
+import 'package:smart_calculator/screens/time_intervel_srt';
 
 import '../../provider/theme_provider.dart';
 import '../data.dart';
@@ -19,6 +17,7 @@ import '../screens/fraction_calculator_screen.dart';
 import '../screens/length_convertor_screen.dart';
 import '../screens/proportion_calculator_screen.dart';
 import '../screens/ratios_calculator_screen.dart';
+import '../screens/temperature_conversion_screen.dart';
 import '../screens/weight_conversion_screen.dart'; // Make sure subcategoryIcons and subcategoryColors are defined
 
 class SubcategoryTile extends StatelessWidget {
@@ -117,10 +116,11 @@ class SubcategoryTile extends StatelessWidget {
             case 'Age Calculator':
               targetScreen = AgeCalculatorScreen(isDarkMode: isDarkMode);
               break;
-            // case 'Temperature':
-            //   targetScreen = TemperatureConversionScreen(
-            //     isDarkMode: isDarkMode,
-            //   );
+            case 'Temperature':
+              targetScreen = TemperatureConversionScreen(
+                isDarkMode: isDarkMode,
+              );
+              break;
             case 'Volume':
               targetScreen = VolumeConversionScreen(isDarkMode: isDarkMode);
               break;
