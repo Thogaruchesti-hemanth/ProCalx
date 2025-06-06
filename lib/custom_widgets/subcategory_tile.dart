@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_calculator/screens/Area_calculator_screen.dart';
 import 'package:smart_calculator/screens/acceleration_calculator_screen.dart';
 import 'package:smart_calculator/screens/age_calculator_screen.dart';
+import 'package:smart_calculator/screens/area_calculator_screen.dart';
 import 'package:smart_calculator/screens/average_calculator_screen.dart';
 import 'package:smart_calculator/screens/percentage_calculator_screen.dart';
 // import 'package:smart_calculator/screens/temparature_conversion_screen.dart';
 import 'package:smart_calculator/screens/time_intervel_screen.dart';
+import 'package:smart_calculator/screens/volume_calculation_Screen.dart';
 import 'package:smart_calculator/screens/volume_conversion_screen.dart';
 
 import '../../provider/theme_provider.dart';
@@ -94,6 +95,9 @@ class SubcategoryTile extends StatelessWidget {
               break;
             case 'Area':
               targetScreen = AreaCalculatorScreen(isDarkMode: isDarkMode);
+              break;
+            case 'Volume':
+              targetScreen = VolumeCalculatorScreen(isDarkMode: isDarkMode);
               break;
             case 'BMI':
               targetScreen = BMIScreen(isDarkMode: isDarkMode);
