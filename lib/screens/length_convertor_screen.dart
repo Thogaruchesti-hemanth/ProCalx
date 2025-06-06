@@ -13,6 +13,8 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
   String fromUnit = 'm'; // Default is Meters
   String toUnit = 'km'; // Default is Kilometers
 
+  final TextEditingController inputController = TextEditingController();
+
   final Map<String, String> unitNames = {
     'km': 'Kilometers',
     'm': 'Meters',
@@ -26,19 +28,18 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
 
   final List<String> units = ['km', 'm', 'cm', 'mm', 'mi', 'yd', 'ft', 'in'];
 
-  final Map<String, IconData> unitIcons = {
-    'km': Icons.directions_car, // 🚗
-    'm': Icons.straighten, // 📏
-    'cm': Icons.build, // 🧑‍🔧
-    'mm': Icons.calculate, // 🧮
-    'mi': Icons.public, // 🌍
-    'yd': Icons.directions_run, // 🏃
-    'ft': Icons.directions_walk, // 👣
-    'in': Icons.square_foot, // 📐
+  final Map<String, String> unitIcons = {
+    'km': '🛣️',
+    'm': '📏',
+    'cm': '📐',
+    'mm': '✂️',
+    'mi': '🛤️',
+    'yd': '🏃‍♂️',
+    'ft': '👣',
+    'in': '📌',
   };
 
   double convertLength(double value, String from, String to) {
-    // Conversion factors to meters
     Map<String, double> toMeters = {
       'km': 1000,
       'm': 1,
@@ -66,6 +67,12 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
   }
 
   @override
+  void dispose() {
+    inputController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bgColor = widget.isDarkMode ? Colors.black : Colors.white;
     final textColor = widget.isDarkMode ? Colors.white : Colors.black;
@@ -75,26 +82,13 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
       appBar: AppBar(
         backgroundColor: bgColor,
         elevation: 0,
-        actions: [
-          Icon(Icons.close, color: textColor),
-          SizedBox(width: 8),
-          Icon(Icons.more_vert, color: textColor),
-        ],
+        title: Text("Length Conversion", style: TextStyle(color: textColor)),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Length Conversion',
-              style: TextStyle(
-                color: textColor,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
             buildInputField('Enter value', inputValue, (value) {
               setState(() {
                 inputValue = double.tryParse(value) ?? 0;
@@ -171,11 +165,14 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: TextField(
+            controller: inputController,
+            autofocus: true,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             onChanged: onChanged,
             style: TextStyle(color: textColor, fontSize: 18),
             decoration: InputDecoration(
               hintText: 'Enter value',
+              hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16,
@@ -221,7 +218,10 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
                     value: value,
                     child: Row(
                       children: [
-                        Icon(unitIcons[value], color: textColor),
+                        Text(
+                          unitIcons[value] ?? '',
+                          style: TextStyle(fontSize: 20),
+                        ),
                         SizedBox(width: 8),
                         Text(
                           unitNames[value]!,
@@ -239,13 +239,25 @@ class _LengthConversionScreenState extends State<LengthConversionScreen> {
 
   Widget buildResultRow(String label, String result, Color textColor) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+        Expanded(
+          flex: 2,
+          child: Text(
+            label,
+            style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        Spacer(),
-        Text(result, style: TextStyle(color: textColor)),
+        SizedBox(width: 10),
+        Expanded(
+          flex: 3,
+          child: Text(
+            result,
+            style: TextStyle(color: textColor),
+            softWrap: true,
+          ),
+        ),
       ],
     );
   }

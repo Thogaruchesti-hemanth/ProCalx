@@ -99,6 +99,12 @@ class SubcategoryTile extends StatelessWidget {
             case 'Volume':
               targetScreen = VolumeCalculatorScreen(isDarkMode: isDarkMode);
               break;
+            case 'Length':
+              targetScreen = LengthConversionScreen(isDarkMode: isDarkMode);
+              break;
+            case 'Weight':
+              targetScreen = WeightConversionScreen(isDarkMode: isDarkMode);
+              break;
             case 'BMI':
               targetScreen = BMIScreen(isDarkMode: isDarkMode);
               break;
@@ -110,12 +116,6 @@ class SubcategoryTile extends StatelessWidget {
               break;
             case 'Age Calculator':
               targetScreen = AgeCalculatorScreen(isDarkMode: isDarkMode);
-              break;
-            case 'Length':
-              targetScreen = LengthConversionScreen(isDarkMode: isDarkMode);
-              break;
-            case 'Weight':
-              targetScreen = WeightConversionScreen(isDarkMode: isDarkMode);
               break;
             // case 'Temperature':
             //   targetScreen = TemperatureConversionScreen(

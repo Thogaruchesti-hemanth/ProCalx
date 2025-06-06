@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class WeightConversionScreen extends StatefulWidget {
   final bool isDarkMode;
@@ -25,13 +24,14 @@ class _WeightConversionScreenState extends State<WeightConversionScreen> {
 
   final List<String> units = ['kg', 'g', 'mg', 'lb', 'oz', 'ton'];
 
-  final Map<String, IconData> unitIcons = {
-    'kg': MdiIcons.weightKilogram,
-    'g': MdiIcons.weightGram,
-    'mg': MdiIcons.dotsHorizontalCircle,
-    'lb': MdiIcons.weightPound,
-    'oz': MdiIcons.foodVariant,
-    'ton': MdiIcons.truck,
+  // Changed from IconData to emoji strings for icons
+  final Map<String, String> unitIcons = {
+    'kg': '⚖️',
+    'g': '🧂',
+    'mg': '🔬',
+    'lb': '🏋️',
+    'oz': '🥄',
+    'ton': '🚛',
   };
 
   double convertWeight(double value, String from, String to) {
@@ -67,81 +67,65 @@ class _WeightConversionScreenState extends State<WeightConversionScreen> {
       appBar: AppBar(
         backgroundColor: bgColor,
         elevation: 0,
-        actions: [
-          Icon(Icons.close, color: textColor),
-          SizedBox(width: 8),
-          Icon(Icons.more_vert, color: textColor),
-        ],
+        title: Text('Weight Conversion', style: TextStyle(color: textColor)),
+        // Removed actions as per your earlier request
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Weight Conversion',
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildInputField('Enter value', inputValue, (value) {
+              setState(() {
+                inputValue = double.tryParse(value) ?? 0;
+              });
+            }, textColor),
+            SizedBox(height: 20),
+            buildUnitPicker(textColor, 'From', fromUnit, (newValue) {
+              setState(() {
+                fromUnit = newValue!;
+              });
+            }),
+            SizedBox(height: 20),
+            buildUnitPicker(textColor, 'To', toUnit, (newValue) {
+              setState(() {
+                toUnit = newValue!;
+              });
+            }),
+            SizedBox(height: 40),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color:
+                    widget.isDarkMode ? Colors.grey[900] : Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(16),
               ),
-              SizedBox(height: 20),
-              buildInputField('Enter value', inputValue, (value) {
-                setState(() {
-                  inputValue = double.tryParse(value) ?? 0;
-                });
-              }, textColor),
-              SizedBox(height: 20),
-              buildUnitPicker(textColor, 'From', fromUnit, (newValue) {
-                setState(() {
-                  fromUnit = newValue!;
-                });
-              }),
-              SizedBox(height: 20),
-              buildUnitPicker(textColor, 'To', toUnit, (newValue) {
-                setState(() {
-                  toUnit = newValue!;
-                });
-              }),
-              SizedBox(height: 40),
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color:
-                      widget.isDarkMode
-                          ? Colors.grey[900]
-                          : Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildResultRow(
-                      'Converted Value',
-                      '${convertWeight(inputValue, fromUnit, toUnit).toStringAsFixed(4)} ${unitNames[toUnit]}',
-                      textColor,
-                    ),
-                    SizedBox(height: 10),
-                    buildResultRow(
-                      'From:',
-                      '$inputValue ${unitNames[fromUnit]}',
-                      textColor,
-                    ),
-                    SizedBox(height: 10),
-                    buildResultRow('To:', unitNames[toUnit]!, textColor),
-                    SizedBox(height: 10),
-                    buildResultRow(
-                      'Conversion Formula',
-                      '1 ${unitNames[fromUnit]} = ${convertWeight(1, fromUnit, toUnit).toStringAsFixed(4)} ${unitNames[toUnit]}',
-                      textColor,
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildResultRow(
+                    'Converted Value',
+                    '${convertWeight(inputValue, fromUnit, toUnit).toStringAsFixed(4)} ${unitNames[toUnit]}',
+                    textColor,
+                  ),
+                  SizedBox(height: 10),
+                  buildResultRow(
+                    'From:',
+                    '$inputValue ${unitNames[fromUnit]}',
+                    textColor,
+                  ),
+                  SizedBox(height: 10),
+                  buildResultRow('To:', unitNames[toUnit]!, textColor),
+                  SizedBox(height: 10),
+                  buildResultRow(
+                    'Conversion Formula',
+                    '1 ${unitNames[fromUnit]} = ${convertWeight(1, fromUnit, toUnit).toStringAsFixed(4)} ${unitNames[toUnit]}',
+                    textColor,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -217,7 +201,10 @@ class _WeightConversionScreenState extends State<WeightConversionScreen> {
                     value: value,
                     child: Row(
                       children: [
-                        Icon(unitIcons[value], color: textColor),
+                        Text(
+                          unitIcons[value] ?? '',
+                          style: TextStyle(fontSize: 20),
+                        ),
                         SizedBox(width: 8),
                         Text(
                           unitNames[value]!,
@@ -235,13 +222,25 @@ class _WeightConversionScreenState extends State<WeightConversionScreen> {
 
   Widget buildResultRow(String label, String result, Color textColor) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+        Expanded(
+          flex: 2,
+          child: Text(
+            label,
+            style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        Spacer(),
-        Text(result, style: TextStyle(color: textColor)),
+        SizedBox(width: 10),
+        Expanded(
+          flex: 3,
+          child: Text(
+            result,
+            style: TextStyle(color: textColor),
+            softWrap: true,
+          ),
+        ),
       ],
     );
   }
