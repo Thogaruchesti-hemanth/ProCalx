@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 final List<String> categories = [
+  'Dev Calculator',
   'Algebra',
   'Geometry',
   'Unit Converters',
@@ -13,6 +14,15 @@ final List<String> categories = [
 ];
 
 final Map<String, List<String>> subcategoryMap = {
+  'Dev Calculator': [
+    'Data Conversion',
+    'Base64 Converter',
+    'JSON Formatter / Validator',
+    'XML Formatter / Validator',
+    'Timestamp ↔ DateTime',
+    'UTF-8 ↔ UTF-16 ↔ UTF-32',
+    'Color Code Converter (#HEX ↔ RGB)',
+  ],
   'Algebra': [
     'Percentage',
     'Average',
@@ -57,6 +67,7 @@ final Map<String, List<String>> subcategoryMap = {
 };
 
 final Map<String, String> categoryIcons = {
+  'Dev Calculator': '💻',
   'Algebra': '🧮',
   'Geometry': '📐',
   'Unit Converters': '♾️',
@@ -100,6 +111,13 @@ final Map<String, String> subcategoryIcons = {
   'Fractions': '🍰',
   'Area': '🧱',
   'Volume': '🧊',
+  'Data Conversion': '🔢',
+  'Base64 Converter': '📦',
+  'JSON Formatter / Validator': '🧰',
+  'XML Formatter / Validator': '📂',
+  'Timestamp ↔ DateTime': '⏳',
+  'UTF-8 ↔ UTF-16 ↔ UTF-32': '🈳',
+  'Color Code Converter (#HEX ↔ RGB)': '🎨',
 };
 
 final buttonLabels = [
@@ -121,6 +139,7 @@ final Map<String, Color> categoryColors = {
   'Physics': Colors.blueGrey,
   'Chemistry': Colors.amber,
   'Cooking': Colors.brown,
+  'Dev Calculator': Colors.cyan,
 };
 
 final Map<String, Color> subcategoryColors = {
@@ -147,4 +166,11 @@ final Map<String, Color> subcategoryColors = {
   'Temperature (Cooking)': Colors.red,
   'Weight (Cooking)': Colors.brown,
   'Volume': Colors.brown.shade300,
+  'Data Conversion': Colors.teal,
+  'Base64 Converter': Colors.green,
+  'JSON Formatter / Validator': Colors.lightBlue,
+  'XML Formatter / Validator': Colors.purple,
+  'Timestamp ↔ DateTime': Colors.blueGrey,
+  'UTF-8 ↔ UTF-16 ↔ UTF-32': Colors.lightGreen,
+  'Color Code Converter (#HEX ↔ RGB)': Colors.yellow,
 };

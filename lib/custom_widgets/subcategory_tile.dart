@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_calculator/screens/data_conversion_screen.dart';
 
 import '../../provider/theme_provider.dart';
-import '../data.dart'; // For subcategoryIcons and subcategoryColors
+import '../data.dart';
 import '../screens/Equation_solver_screen.dart';
-// Import your screens here
 import '../screens/acceleration_calculator_screen.dart';
 import '../screens/add_and_subtract_screen.dart';
 import '../screens/age_calculator_screen.dart';
@@ -52,6 +52,9 @@ class SubcategoryTile extends StatelessWidget {
     final normalizedSubcategory = subcategory.toLowerCase();
 
     switch (normalizedSubcategory) {
+      case 'data conversion':
+        targetScreen = DataConversionScreen(isDarkMode: isDarkMode);
+        break;
       case 'percentage':
         targetScreen = PercentageScreen(isDarkMode: isDarkMode);
         break;
