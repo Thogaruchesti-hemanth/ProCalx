@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_calculator/provider/theme_provider.dart';
+
 import 'custom_widgets/category_tile.dart';
 import 'custom_widgets/search_bar.dart';
 import 'custom_widgets/subcategory_section.dart';
@@ -63,10 +64,25 @@ class _UnitConverterState extends State<UnitConverter> {
   }
 
   void _scrollToCategory(String category) {
-    final keyContext = _categoryKeys[category]?.currentContext;
-    if (keyContext != null) {
+    // Scroll to the first subcategory inside the selected category
+    final firstSubcategory = subcategoryMap[category]?.first;
+    if (firstSubcategory != null) {
+      final keyContext =
+          _subcategoryKeys[category]?[firstSubcategory]?.currentContext;
+      if (keyContext != null) {
+        Scrollable.ensureVisible(
+          keyContext,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+        return;
+      }
+    }
+    // Fallback scroll to category header if no subcategory found
+    final categoryContext = _categoryKeys[category]?.currentContext;
+    if (categoryContext != null) {
       Scrollable.ensureVisible(
-        keyContext,
+        categoryContext,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
@@ -110,13 +126,12 @@ class _UnitConverterState extends State<UnitConverter> {
                   setState(() {});
                   // Scroll to the first matching category when search changes
                   String query = _searchController.text;
-                  // Check for matching category
-                  for (String category in categories) {
+                  for (String category in subcategoryMap.keys) {
                     for (String subcategory in subcategoryMap[category]!) {
                       if (subcategory.toLowerCase().contains(
                         query.toLowerCase(),
                       )) {
-                        // _scrollToSubcategory(category, subcategory);
+                        _scrollToSubcategory(subcategory);
                         return;
                       }
                     }
@@ -182,14 +197,17 @@ class _UnitConverterState extends State<UnitConverter> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    ...subcategoryMap.entries.expand((entry) {
+                    ...subcategoryMap.entries.map((entry) {
                       final category = entry.key;
-                      return [
-                        SubcategorySection(
-                          category: category,
-                          searchText: _searchController.text.toString(),
-                        ),
-                      ];
+                      final firstSubcategory = subcategoryMap[category]?.first;
+                      final keyToPass =
+                          _categoryKeys[category]; // this is the header key
+                      return SubcategorySection(
+                        key: _categoryKeys[category],
+                        category: category,
+                        searchText: _searchController.text,
+                        firstSubcategoryKey: keyToPass,
+                      );
                     }).toList(),
                   ],
                 ),
