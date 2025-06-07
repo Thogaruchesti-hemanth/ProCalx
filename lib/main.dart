@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_calculator/calculator.dart';
 import 'package:smart_calculator/provider/theme_provider.dart';
+import 'package:smart_calculator/unit_converter_app.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         ),
-        home: CalculatorApp(),
+        home: UnitConverterApp(),
       ),
     );
   }

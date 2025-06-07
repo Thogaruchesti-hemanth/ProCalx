@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 
 class CalculatorDrawer extends StatelessWidget {
   final bool isDarkMode;
-  final String selectedMenu;
   final List<String> history;
-  final Function(String) onSelectMenu;
+  final VoidCallback onClearHistory;
 
   const CalculatorDrawer({
-    required this.isDarkMode,
-    required this.selectedMenu,
-    required this.history,
-    required this.onSelectMenu,
     super.key,
+    required this.isDarkMode,
+    required this.history,
+    required this.onClearHistory,
   });
 
   @override
@@ -20,17 +18,7 @@ class CalculatorDrawer extends StatelessWidget {
       child: Container(
         color: isDarkMode ? const Color(0xFF1F1F1F) : const Color(0xFFF8FAFC),
         child: Column(
-          children: [
-            _buildHeader(),
-            _buildDrawerTile(Icons.calculate, 'Calculator', context),
-            _buildDrawerTile(
-              Icons.swap_horiz_rounded,
-              'Unit Converter',
-              context,
-            ),
-            const Divider(),
-            _buildHistorySection(context),
-          ],
+          children: [_buildHeader(), _buildHistorySection(context)],
         ),
       ),
     );
@@ -38,7 +26,7 @@ class CalculatorDrawer extends StatelessWidget {
 
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 24),
+      padding: const EdgeInsets.only(left: 16, top: 80, bottom: 24),
       decoration: BoxDecoration(
         gradient:
             isDarkMode
@@ -65,7 +53,7 @@ class CalculatorDrawer extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           Text(
-            'SmartCalc',
+            'ProCalx',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -74,21 +62,6 @@ class CalculatorDrawer extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDrawerTile(IconData icon, String title, BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: isDarkMode ? Colors.white70 : Colors.black87),
-      title: Text(
-        title,
-        style: TextStyle(color: isDarkMode ? Colors.white70 : Colors.black87),
-      ),
-      selected: selectedMenu.toLowerCase().contains(title.toLowerCase()),
-      onTap: () {
-        Navigator.of(context).pop();
-        onSelectMenu(title.toLowerCase());
-      },
     );
   }
 
@@ -135,8 +108,8 @@ class CalculatorDrawer extends StatelessWidget {
                         foregroundColor: Colors.white,
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop(); // Close the drawer
-                        onSelectMenu('clear_history'); // Trigger callback
+                        Navigator.of(context).pop(); // Close drawer
+                        onClearHistory(); // Clear callback
                       },
                       icon: const Icon(Icons.delete),
                       label: const Text('Clear History'),

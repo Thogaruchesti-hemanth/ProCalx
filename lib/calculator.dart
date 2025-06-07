@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_calculator/provider/theme_provider.dart';
@@ -7,8 +5,6 @@ import 'package:smart_calculator/unit_converter.dart';
 import 'package:smart_calculator/utils/calculator_engine.dart';
 import 'package:smart_calculator/utils/preferences_service.dart';
 
-import 'custom_widgets/calculator_appbar.dart';
-import 'custom_widgets/calculator_drawer.dart';
 import 'screens/calculator_screen.dart';
 
 class CalculatorApp extends StatefulWidget {
@@ -88,18 +84,6 @@ class _CalculatorAppState extends State<CalculatorApp> {
     _isDarkMode = context.watch<ThemeProvider>().isDarkMode;
 
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: CalculatorAppBar(
-        scaffoldKey: _scaffoldKey,
-        isDarkMode: _isDarkMode,
-        onToggleTheme: () => context.read<ThemeProvider>().updateTheme(),
-      ),
-      drawer: CalculatorDrawer(
-        isDarkMode: _isDarkMode,
-        selectedMenu: _selectedMenu,
-        history: _history,
-        onSelectMenu: (value) => setState(() => _selectedMenu = value),
-      ),
       body:
           _selectedMenu == 'calculator'
               ? CalculatorScreen(
