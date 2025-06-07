@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_calculator/screens/data_conversion_screen.dart';
+import 'package:smart_calculator/screens/json_formatter_screen.dart';
 
 import '../../provider/theme_provider.dart';
 import '../data.dart';
@@ -58,6 +59,9 @@ class SubcategoryTile extends StatelessWidget {
         break;
       case 'base64 converter':
         targetScreen = Base64ConverterScreen(isDarkMode: isDarkMode);
+        break;
+      case 'jsonmate':
+        targetScreen = JsonFormatterScreen(isDarkMode: isDarkMode);
         break;
       case 'percentage':
         targetScreen = PercentageScreen(isDarkMode: isDarkMode);
