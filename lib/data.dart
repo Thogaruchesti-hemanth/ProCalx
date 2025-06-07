@@ -17,10 +17,7 @@ final Map<String, List<String>> subcategoryMap = {
   'Dev Calculator': [
     'Data Conversion',
     'Base64 Converter',
-    'JSON Formatter / Validator',
-    'XML Formatter / Validator',
-    'Timestamp ↔ DateTime',
-    'UTF-8 ↔ UTF-16 ↔ UTF-32',
+    'JsonMate',
     'Color Code Converter (#HEX ↔ RGB)',
   ],
   'Algebra': [
@@ -113,10 +110,7 @@ final Map<String, String> subcategoryIcons = {
   'Volume': '🧊',
   'Data Conversion': '🔢',
   'Base64 Converter': '📦',
-  'JSON Formatter / Validator': '🧰',
-  'XML Formatter / Validator': '📂',
-  'Timestamp ↔ DateTime': '⏳',
-  'UTF-8 ↔ UTF-16 ↔ UTF-32': '🈳',
+  'JsonMate': '🧰',
   'Color Code Converter (#HEX ↔ RGB)': '🎨',
 };
 
@@ -168,9 +162,6 @@ final Map<String, Color> subcategoryColors = {
   'Volume': Colors.brown.shade300,
   'Data Conversion': Colors.teal,
   'Base64 Converter': Colors.green,
-  'JSON Formatter / Validator': Colors.lightBlue,
-  'XML Formatter / Validator': Colors.purple,
-  'Timestamp ↔ DateTime': Colors.blueGrey,
-  'UTF-8 ↔ UTF-16 ↔ UTF-32': Colors.lightGreen,
+  'JsonMate': Colors.lightBlue,
   'Color Code Converter (#HEX ↔ RGB)': Colors.yellow,
 };
