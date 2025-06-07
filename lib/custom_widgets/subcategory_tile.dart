@@ -10,6 +10,7 @@ import '../screens/add_and_subtract_screen.dart';
 import '../screens/age_calculator_screen.dart';
 import '../screens/area_calculator_screen.dart';
 import '../screens/average_calculator_screen.dart';
+import '../screens/base64_screen.dart';
 import '../screens/bmi_screen.dart';
 import '../screens/fraction_calculator_screen.dart';
 import '../screens/length_convertor_screen.dart';
@@ -54,6 +55,9 @@ class SubcategoryTile extends StatelessWidget {
     switch (normalizedSubcategory) {
       case 'data conversion':
         targetScreen = DataConversionScreen(isDarkMode: isDarkMode);
+        break;
+      case 'base64 converter':
+        targetScreen = Base64ConverterScreen(isDarkMode: isDarkMode);
         break;
       case 'percentage':
         targetScreen = PercentageScreen(isDarkMode: isDarkMode);
