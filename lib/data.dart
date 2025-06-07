@@ -18,7 +18,7 @@ final Map<String, List<String>> subcategoryMap = {
     'Data Conversion',
     'Base64 Converter',
     'JsonMate',
-    'Color Code Converter (#HEX ↔ RGB)',
+    'Color Code Converter',
   ],
   'Algebra': [
     'Percentage',
@@ -111,7 +111,7 @@ final Map<String, String> subcategoryIcons = {
   'Data Conversion': '🔢',
   'Base64 Converter': '📦',
   'JsonMate': '🧰',
-  'Color Code Converter (#HEX ↔ RGB)': '🎨',
+  'Color Code Converter': '🎨',
 };
 
 final buttonLabels = [
@@ -163,5 +163,5 @@ final Map<String, Color> subcategoryColors = {
   'Data Conversion': Colors.teal,
   'Base64 Converter': Colors.green,
   'JsonMate': Colors.lightBlue,
-  'Color Code Converter (#HEX ↔ RGB)': Colors.yellow,
+  'Color Code Converter': Colors.yellow,
 };

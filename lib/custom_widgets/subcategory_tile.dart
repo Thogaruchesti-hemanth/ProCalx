@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_calculator/screens/color_code_conversion_screen.dart';
 import 'package:smart_calculator/screens/data_conversion_screen.dart';
 import 'package:smart_calculator/screens/json_formatter_screen.dart';
 
@@ -63,6 +64,9 @@ class SubcategoryTile extends StatelessWidget {
       case 'jsonmate':
         targetScreen = JsonFormatterScreen(isDarkMode: isDarkMode);
         break;
+      case 'color code converter':
+        targetScreen = ColorConversionScreen(isDarkMode: isDarkMode);
+        break;
       case 'percentage':
         targetScreen = PercentageScreen(isDarkMode: isDarkMode);
         break;
@@ -85,8 +89,6 @@ class SubcategoryTile extends StatelessWidget {
         targetScreen = AreaCalculatorScreen(isDarkMode: isDarkMode);
         break;
       case 'volume':
-        // You had two different volume screens, decide which to keep:
-        // For example, keep VolumeCalculatorScreen here
         targetScreen = VolumeCalculatorScreen(isDarkMode: isDarkMode);
         break;
       case 'length':
