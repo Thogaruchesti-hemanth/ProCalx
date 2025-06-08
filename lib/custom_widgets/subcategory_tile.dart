@@ -15,6 +15,7 @@ import '../screens/area_calculator_screen.dart';
 import '../screens/average_calculator_screen.dart';
 import '../screens/base64_screen.dart';
 import '../screens/bmi_screen.dart';
+import '../screens/data_storage_conversion_screen.dart';
 import '../screens/fraction_calculator_screen.dart';
 import '../screens/length_convertor_screen.dart';
 import '../screens/percentage_calculator_screen.dart';
@@ -97,6 +98,9 @@ class SubcategoryTile extends StatelessWidget {
         break;
       case 'weight':
         targetScreen = WeightConversionScreen(isDarkMode: isDarkMode);
+        break;
+      case 'data storage':
+        targetScreen = DataStorageConversionScreen(isDarkMode: isDarkMode);
         break;
       case 'bmi':
         targetScreen = BMIScreen(isDarkMode: isDarkMode);

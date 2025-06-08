@@ -36,7 +36,6 @@ final Map<String, List<String>> subcategoryMap = {
     'Acceleration',
     'Area',
     'Data Storage',
-    'data transfer',
     'Energy',
     'Force',
     'Fuel',
@@ -114,6 +113,7 @@ final Map<String, String> subcategoryIcons = {
   'JsonMate': '🧰',
   'Color Code Converter': '🎨',
   'Acceleration': '🚗',
+  'Data Storage': '💽',
 };
 
 final buttonLabels = [
