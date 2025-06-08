@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_calculator/screens/area_conversion_screen.dart';
 import 'package:smart_calculator/screens/color_code_conversion_screen.dart';
 import 'package:smart_calculator/screens/data_conversion_screen.dart';
+import 'package:smart_calculator/screens/interest_calculation_screen.dart';
 import 'package:smart_calculator/screens/json_formatter_screen.dart';
 
 import '../../provider/theme_provider.dart';
@@ -131,6 +132,9 @@ class SubcategoryTile extends StatelessWidget {
         break;
       case 'time conversion':
         targetScreen = TimeConversionScreen(isDarkMode: isDarkMode);
+        break;
+      case 'interest':
+        targetScreen = InterestCalculatorScreen(isDarkMode: isDarkMode);
         break;
       default:
         targetScreen = null;
