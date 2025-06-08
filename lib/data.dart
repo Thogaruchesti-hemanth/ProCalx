@@ -36,14 +36,7 @@ final Map<String, List<String>> subcategoryMap = {
     'Acceleration',
     'Area',
     'Data Storage',
-    'Energy',
-    'Force',
-    'Fuel',
-    'Power',
-    'Speed',
-    'Torque',
-    'Volume',
-    'Time',
+    'Time Conversion',
   ],
   'Finance': [
     'Interest',
@@ -114,6 +107,7 @@ final Map<String, String> subcategoryIcons = {
   'Color Code Converter': '🎨',
   'Acceleration': '🚗',
   'Data Storage': '💽',
+  'Time Conversion': '⌚',
 };
 
 final buttonLabels = [
