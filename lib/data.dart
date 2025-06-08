@@ -8,9 +8,10 @@ final List<String> categories = [
   'Finance',
   'Health',
   'Data & Time',
-  'Physics',
-  'Chemistry',
-  'Cooking',
+  // for the version 2.0.0
+  // 'Physics',
+  // 'Chemistry',
+  // 'Cooking',
 ];
 
 final Map<String, List<String>> subcategoryMap = {
@@ -49,9 +50,9 @@ final Map<String, List<String>> subcategoryMap = {
   ],
   'Health': ['BMI', 'Calorie Burn', 'Body fat'],
   'Data & Time': ['Age Calculator', 'Time Interval', 'Add & Subtract'],
-  'Physics': ['Motion', 'Force', 'Energy'],
-  'Chemistry': ['Moles', 'Atoms', 'Periodic Table'],
-  'Cooking': ['Temperature (Cooking)', 'Weight (Cooking)', 'Volume', 'Cooking'],
+  // 'Physics': ['Motion', 'Force', 'Energy'],
+  // 'Chemistry': ['Moles', 'Atoms', 'Periodic Table'],
+  // 'Cooking': ['Temperature (Cooking)', 'Weight (Cooking)', 'Volume', 'Cooking'],
 };
 
 final Map<String, String> categoryIcons = {
@@ -108,6 +109,7 @@ final Map<String, String> subcategoryIcons = {
   'Acceleration': '🚗',
   'Data Storage': '💽',
   'Time Conversion': '⌚',
+  'Add & Subtract': '➕➖',
 };
 
 final buttonLabels = [
