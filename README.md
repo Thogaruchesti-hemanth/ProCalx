@@ -1,76 +1,67 @@
----
+# Procalax - Professional Calculator Application
 
-# 📱 Procalax – All-in-One Professional Calculator App
+![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)
+![MIT License](https://img.shields.io/badge/license-MIT-blue)
 
-**Procalax** is a clean, modern, and fully-featured calculator app designed to handle a wide range of calculations — from simple arithmetic to complex unit conversions. Built using **Flutter**, this app is tailored for professionals, students, and everyday users who value both utility and user experience.
+Procalax is a comprehensive calculator application designed for professionals, students, and everyday users. Offering a suite of specialized calculation tools within an intuitive interface, it combines powerful functionality with modern design principles.
 
----
+## 🌟 Key Features
 
-## 🚀 Features
+### Core Functionalities
+- **Basic Calculator**: Clean interface for arithmetic operations
+- **Loan Calculator**: EMI, interest rate, and repayment schedule calculations
+- **Unit Conversion**: Real-time conversion across multiple categories:
+  - Length (meters, feet, inches, etc.)
+  - Area (square meters, square feet, acres)
+  - Weight (kg, lbs, ounces)
+  - Volume (liters, gallons, cubic meters)
+  - Data Storage (bytes, KB, MB, GB, TB)
+  - Temperature (Celsius, Fahrenheit, Kelvin)
+- **BMI Calculator**: Health metric calculation with categorization
 
-* 🧮 **Basic Calculator**
-  Perform everyday calculations with a clean interface.
+### Enhanced User Experience
+- 🕶️ **Dark/Light Theme**: Adaptive theming system
+- 📚 **Calculation History**: Persistent storage with management options
+- 🔢 **Precision Control**: Configurable decimal accuracy
+- 📱 **Responsive Design**: Optimized for all screen sizes
 
-* 📊 **Loan Calculator**
-  Calculate EMI, interest, and repayment schedules.
+## 🚧 Planned Features
+- Real-time currency conversion (API integration)
+- Scientific calculator functions
+- Multi-language localization
+- Customizable unit presets
 
-* ⚖️ **Unit Converters**
+## 🧰 Technical Implementation
 
-  * Length
-  * Area
-  * Weight
-  * Volume
-  * Data Storage
-  * Currency *(Planned for future)*
-  * Temperature
+### Technology Stack
+- **Framework**: Flutter (cross-platform compatibility)
+- **Language**: Dart (null-safe implementation)
+- **State Management**: Provider pattern with setState
+- **Persistence**: SharedPreferences for history storage
+- **Architecture**: Modular component-based design
 
-* 🧠 **BMI Calculator**
-  Calculate Body Mass Index based on height and weight.
-
-* 🎨 **Dark Mode Support**
-  Seamlessly switch between light and dark themes.
-
-* 🧾 **Calculation History**
-  Review and manage your past calculations with ease.
-
-* 📏 **Conversion Precision**
-  Supports decimal accuracy and large unit coverage.
-
----
-
-## 📷 Screenshots
-
-> *(Insert relevant screenshots here: Home, Unit Conversion, Loan Calculator, etc.)*
-
----
-
-## 🛠️ Tech Stack
-
-* **Flutter** – Cross-platform UI toolkit
-* **Dart** – Programming language for Flutter
-* **Provider / setState** – State management
-* **SharedPreferences** – Local storage for history (optional)
-
----
-
-## 📁 Project Structure (Simplified)
-
+### Project Structure
+```plaintext
+lib/
+├── main.dart                # Application entry point
+├── screens/                 # UI View controllers
+│   ├── home_screen.dart     # Main navigation hub
+│   ├── calculator/          # Calculation modules
+│   ├── converters/          # Unit conversion handlers
+│   └── bmi/                 # Health calculation logic
+├── widgets/                 # Reusable UI components
+├── utils/                   # Helper functions & constants
+│   ├── calculation.dart     # Core math operations
+│   ├── converters/          # Conversion algorithms
+│   └── theme.dart           # Theme configuration
+└── models/                  # Data structures
 ```
-/lib
- ├── main.dart
- ├── screens/
- │    ├── home_screen.dart
- │    ├── loan_calculator.dart
- │    ├── bmi_calculator.dart
- │    └── conversions/
- │         ├── length_conversion.dart
- │         ├── area_conversion.dart
- │         └── data_conversion.dart
- ├── widgets/
- └── utils/
-```
-
----
+## 🚀 Getting Started 
+Prerequisites
+- Flutter SDK (version 3.0 or higher)
+- Dart SDK (version 2.17 or higher)
+- IDE (VS Code or Android Studio recommended)
 
 ## 🧪 How to Run
 
@@ -93,38 +84,35 @@
    flutter run
    ```
 
----
+## 📊 Roadmap
 
-## 📝 Roadmap
+Feature | Status
+---|---
+Basic Calculator | ✅ Implemented
+Unit Conversion | ✅ Implemented
+Loan Calculator | ✅ Implemented
+BMI Calculator | ✅ Implemented
+Currency Conversion | ⏳ In Progress
+Scientific Functions | ⏳ Planned
+Localization | ⏳ Planned
 
-* [x] Basic Calculator
-* [x] Unit Conversion
-* [x] Loan & EMI Calculator
-* [x] BMI Calculator
-* [ ] Currency Conversion (with API)
-* [ ] Scientific Calculator
-* [ ] Localization Support
+## 🤝 Contribution Guidelines
 
----
+Contributions are welcome through GitHub Issues and Pull Requests. Please follow these steps:
 
-## 🙌 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or feature requests.
-
----
+1. **Fork the repository**
+2. **Create a feature branch**  
+   `git checkout -b feature/your-feature`
+3. **Commit your changes** with descriptive messages
+4. **Push to your branch**  
+   `git push origin feature/your-feature`
+5. **Open a Pull Request**
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+Distributed under the MIT License. See `LICENSE` for full terms.
 
----
+## 📬 Contact
 
-## 💡 Author
-
-**Sai Hemanth**
-Mobile & Flutter Developer | AI Enthusiast
-🔗 [LinkedIn](https://www.linkedin.com/in/yourprofile) | 🌐 [Portfolio](https://yourportfolio.com)
-
----
-
-Would you like me to generate the same content as a downloadable `README.md` file or tailor it based on features you’ve added?
+**Sai Hemanth** - Flutter Developer  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin)](https://www.linkedin.com/in/thogaruchesti-hemanth/)
