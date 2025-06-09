@@ -41,6 +41,28 @@ Procalax is a comprehensive calculator application designed for professionals, s
 - **Persistence**: SharedPreferences for history storage
 - **Architecture**: Modular component-based design
 
+## ScreenShorts
+
+<table>
+  <tr>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-1.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-2.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-3.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-4.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-5.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-6.png?raw=true" width="150"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-7.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-8.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-9.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-10.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-11.png?raw=true" width="150"/></td>
+    <td><img src="https://github.com/Thogaruchesti-hemanth/ProCalx/blob/main/assets/output/screen-12.png?raw=true" width="150"/></td>
+  </tr>
+</table>
+
+
 ### Project Structure
 ```plaintext
 lib/
