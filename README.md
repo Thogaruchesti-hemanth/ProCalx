@@ -1,45 +1,130 @@
-# 📱 ProCalx - The Ultimate Calculator & Conversion Suite
+---
 
-**ProCalx** is a powerful all-in-one calculator and smart utility app designed to simplify your daily tasks. From basic math to complex unit conversions, currency exchange, BMI calculations, and stopwatch tracking — ProCalx is your go-to productivity companion.
+# 📱 Procalax – All-in-One Professional Calculator App
+
+**Procalax** is a clean, modern, and fully-featured calculator app designed to handle a wide range of calculations — from simple arithmetic to complex unit conversions. Built using **Flutter**, this app is tailored for professionals, students, and everyday users who value both utility and user experience.
 
 ---
 
 ## 🚀 Features
 
-### 🔢 Calculator Tools
-- ✔️ Basic Calculator (Add, Subtract, Multiply, Divide)
-- ✔️ Scientific Calculator (Trigonometry, Logarithmic, Power, etc.)
-- ✔️ Percentage, GST, and Tax Calculations
-- ✔️ Calculation History
+* 🧮 **Basic Calculator**
+  Perform everyday calculations with a clean interface.
 
-### 🔁 Conversion Suite
-- 🔹 **Unit Converter**
-  - Length, Area, Volume
-  - Weight, Temperature, Speed, Time, Energy, Pressure, and more
-- 🔹 **Currency Converter**
-  - Real-time exchange rates using online APIs
-  - Offline fallback for saved rates
+* 📊 **Loan Calculator**
+  Calculate EMI, interest, and repayment schedules.
 
-### 🧍 Health Utilities
-- 💪 **BMI Calculator**
-  - Body Mass Index analysis with health range classification
-- 🕒 **Stopwatch & Timer**
-  - Precision stopwatch with lap-time tracking
+* ⚖️ **Unit Converters**
+
+  * Length
+  * Area
+  * Weight
+  * Volume
+  * Data Storage
+  * Currency *(Planned for future)*
+  * Temperature
+
+* 🧠 **BMI Calculator**
+  Calculate Body Mass Index based on height and weight.
+
+* 🎨 **Dark Mode Support**
+  Seamlessly switch between light and dark themes.
+
+* 🧾 **Calculation History**
+  Review and manage your past calculations with ease.
+
+* 📏 **Conversion Precision**
+  Supports decimal accuracy and large unit coverage.
 
 ---
 
-## 🧱 Tech Stack
+## 📷 Screenshots
 
+> *(Insert relevant screenshots here: Home, Unit Conversion, Loan Calculator, etc.)*
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ Tech Stack
 
-### 🔧 Prerequisites
+* **Flutter** – Cross-platform UI toolkit
+* **Dart** – Programming language for Flutter
+* **Provider / setState** – State management
+* **SharedPreferences** – Local storage for history (optional)
 
-Make sure you have:
-- Flutter SDK installed → [Get Flutter](https://flutter.dev/docs/get-started/install)
-- Dart SDK
-- Android Studio / VSCode
+---
 
-### 📥 Clone the Repository
+## 📁 Project Structure (Simplified)
+
+```
+/lib
+ ├── main.dart
+ ├── screens/
+ │    ├── home_screen.dart
+ │    ├── loan_calculator.dart
+ │    ├── bmi_calculator.dart
+ │    └── conversions/
+ │         ├── length_conversion.dart
+ │         ├── area_conversion.dart
+ │         └── data_conversion.dart
+ ├── widgets/
+ └── utils/
+```
+
+---
+
+## 🧪 How to Run
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/procalax.git
+   cd procalax
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run the App**
+
+   ```bash
+   flutter run
+   ```
+
+---
+
+## 📝 Roadmap
+
+* [x] Basic Calculator
+* [x] Unit Conversion
+* [x] Loan & EMI Calculator
+* [x] BMI Calculator
+* [ ] Currency Conversion (with API)
+* [ ] Scientific Calculator
+* [ ] Localization Support
+
+---
+
+## 🙌 Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or feature requests.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 💡 Author
+
+**Sai Hemanth**
+Mobile & Flutter Developer | AI Enthusiast
+🔗 [LinkedIn](https://www.linkedin.com/in/yourprofile) | 🌐 [Portfolio](https://yourportfolio.com)
+
+---
+
+Would you like me to generate the same content as a downloadable `README.md` file or tailor it based on features you’ve added?
