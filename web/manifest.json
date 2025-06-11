@@ -1,6 +1,6 @@
 {
-    "name": "smart_calculator",
-    "short_name": "smart_calculator",
+    "name": "ProCalax",
+    "short_name": "ProCalax",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
