@@ -9,7 +9,7 @@ import 'custom_widgets/calculator_appbar.dart';
 import 'custom_widgets/calculator_drawer.dart';
 
 class UnitConverterApp extends StatefulWidget {
-  const UnitConverterApp({super.key});
+  const UnitConverterApp({Key? key}) : super(key: key);
 
   @override
   State<UnitConverterApp> createState() => _UnitConverterAppState();
@@ -19,34 +19,40 @@ class _UnitConverterAppState extends State<UnitConverterApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PreferencesService _preferencesService = PreferencesService();
 
-  List<String> _history = [];
+  late List<String> _history;
   bool _isDarkMode = false;
 
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
+    _initializePreferences();
   }
 
-  void _loadPreferences() async {
+  Future<void> _initializePreferences() async {
     final darkMode = await _preferencesService.getDarkMode();
     final history = await _preferencesService.getHistory();
+
+    if (!mounted) return;
+
     setState(() {
       _isDarkMode = darkMode;
       _history = history;
     });
   }
 
-  void _savePreferences() {
+  void _updateThemePreference() {
     _preferencesService.setDarkMode(_isDarkMode);
+  }
+
+  void _updateHistoryPreference() {
     _preferencesService.setHistory(_history);
   }
 
   void _toggleTheme() {
     setState(() {
       _isDarkMode = !_isDarkMode;
-      _savePreferences();
     });
+    _updateThemePreference();
   }
 
   void _openCalculator() {
@@ -60,8 +66,8 @@ class _UnitConverterAppState extends State<UnitConverterApp> {
             onSaveHistory: (newHistory) {
               setState(() {
                 _history = newHistory;
-                _savePreferences();
               });
+              _updateHistoryPreference();
             },
           ),
     );
@@ -69,23 +75,27 @@ class _UnitConverterAppState extends State<UnitConverterApp> {
 
   @override
   Widget build(BuildContext context) {
-    _isDarkMode = context.watch<ThemeProvider>().isDarkMode;
+    final themeProvider = context.watch<ThemeProvider>();
+    final isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: CalculatorAppBar(
         scaffoldKey: _scaffoldKey,
-        isDarkMode: _isDarkMode,
-        onToggleTheme: () => context.read<ThemeProvider>().updateTheme(),
+        isDarkMode: isDarkMode,
+        onToggleTheme: () {
+          themeProvider.updateTheme();
+          _toggleTheme(); // Persist to local storage
+        },
       ),
       drawer: CalculatorDrawer(
-        isDarkMode: _isDarkMode,
+        isDarkMode: isDarkMode,
         history: _history,
         onClearHistory: () {
           setState(() {
             _history.clear();
-            _savePreferences();
           });
+          _updateHistoryPreference();
         },
       ),
       body: const UnitConverter(),
@@ -93,16 +103,13 @@ class _UnitConverterAppState extends State<UnitConverterApp> {
         onPressed: _openCalculator,
         label: Text(
           'Calculator',
-          style: TextStyle(
-            color: _isDarkMode ? Colors.black : Colors.white, // Text color
-          ),
+          style: TextStyle(color: isDarkMode ? Colors.black : Colors.white),
         ),
         icon: Icon(
           Icons.calculate,
-          color: _isDarkMode ? Colors.black : Colors.white, // Icon color
+          color: isDarkMode ? Colors.black : Colors.white,
         ),
-        backgroundColor:
-            _isDarkMode ? Colors.grey : Colors.black87, // Button background
+        backgroundColor: isDarkMode ? Colors.grey : Colors.black87,
       ),
     );
   }

@@ -8,10 +8,9 @@ final List<String> categories = [
   'Finance',
   'Health',
   'Data & Time',
-  // for the version 2.0.0
-  // 'Physics',
-  // 'Chemistry',
-  // 'Cooking',
+  'Physics',
+  'Chemistry',
+  'Cooking',
 ];
 
 final Map<String, List<String>> subcategoryMap = {
@@ -42,17 +41,17 @@ final Map<String, List<String>> subcategoryMap = {
   'Finance': [
     'Interest',
     'Loan',
-    // 'Currency Exchange',
-    // 'Unit Price',
-    // 'sales Tax',
-    // 'Tip',
-    // 'EMI',
+    'Currency Exchange',
+    'Unit Price',
+    'sales Tax',
+    'Tip',
+    'EMI',
   ],
   'Health': ['BMI' /*, 'Calorie Burn', 'Body fat'*/],
   'Data & Time': ['Age Calculator', 'Time Interval', 'Add & Subtract'],
-  // 'Physics': ['Motion', 'Force', 'Energy'],
-  // 'Chemistry': ['Moles', 'Atoms', 'Periodic Table'],
-  // 'Cooking': ['Temperature (Cooking)', 'Weight (Cooking)', 'Volume', 'Cooking'],
+  'Physics': ['Motion', 'Force', 'Energy'],
+  'Chemistry': ['Moles', 'Atoms', 'Periodic Table'],
+  'Cooking': ['Temperature (Cooking)', 'Weight (Cooking)', 'Volume', 'Cooking'],
 };
 
 final Map<String, String> categoryIcons = {

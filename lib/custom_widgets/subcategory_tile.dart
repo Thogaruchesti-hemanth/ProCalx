@@ -4,7 +4,6 @@ import 'package:smart_calculator/screens/area_conversion_screen.dart';
 import 'package:smart_calculator/screens/color_code_conversion_screen.dart';
 import 'package:smart_calculator/screens/data_conversion_screen.dart';
 import 'package:smart_calculator/screens/interest_calculation_screen.dart';
-import 'package:smart_calculator/screens/json_formatter_screen.dart';
 import 'package:smart_calculator/screens/loan_calculation_screen.dart';
 
 import '../../provider/theme_provider.dart';
@@ -20,6 +19,7 @@ import '../screens/average_calculator_screen.dart';
 import '../screens/bmi_screen.dart';
 import '../screens/data_storage_conversion_screen.dart';
 import '../screens/fraction_calculator_screen.dart';
+import '../screens/json_formatter_screen.dart';
 import '../screens/length_convertor_screen.dart';
 import '../screens/percentage_calculator_screen.dart';
 import '../screens/proportion_calculator_screen.dart';

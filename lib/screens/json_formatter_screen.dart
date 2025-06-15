@@ -1,11 +1,14 @@
-import 'dart:convert';
+// ignore_for_file: prefer_final_fields, use_key_in_widget_constructors
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/themes/monokai-sublime.dart';
 
 class JsonFormatterScreen extends StatefulWidget {
   final bool isDarkMode;
-  const JsonFormatterScreen({super.key, required this.isDarkMode});
+  const JsonFormatterScreen({required this.isDarkMode});
 
   @override
   State<JsonFormatterScreen> createState() => _JsonFormatterScreenState();
@@ -17,7 +20,6 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
   final TextEditingController _jsonController = TextEditingController();
   final TextEditingController _classNameController = TextEditingController();
 
-  String? _formattedJson;
   String? _error;
   String? _generatedModel;
   String _selectedLanguage = 'Dart';
@@ -33,8 +35,10 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _jsonController.text =
+        '{\n  "user": {\n    "id": 1,\n    "name": "Alice",\n    "contact": {\n      "email": "alice@example.com",\n      "phone": "123-456-7890"\n    },\n    "roles": [\n      "admin",\n      "editor"\n    ]\n  }\n}';
   }
 
   void _formatJson() {
@@ -42,12 +46,11 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
       final jsonObject = jsonDecode(_jsonController.text);
       final prettyJson = const JsonEncoder.withIndent('  ').convert(jsonObject);
       setState(() {
-        _formattedJson = prettyJson;
+        _jsonController.text = prettyJson;
         _error = null;
       });
     } catch (e) {
       setState(() {
-        _formattedJson = null;
         _error = '❌ Invalid JSON format';
       });
     }
@@ -60,28 +63,16 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
           _classNameController.text.trim().isEmpty
               ? 'MyModel'
               : _classNameController.text.trim();
-      String model = '';
 
-      switch (_selectedLanguage) {
-        case 'Dart':
-          model = _generateDartModel(className, decoded);
-          break;
-        case 'Java':
-          model = _generateJavaModel(className, decoded);
-          break;
-        case 'Python':
-          model = _generatePythonModel(className, decoded);
-          break;
-        case 'TypeScript':
-          model = _generateTsModel(className, decoded);
-          break;
-        case 'Kotlin':
-          model = _generateKotlinModel(className, decoded);
-          break;
-        case 'Swift':
-          model = _generateSwiftModel(className, decoded);
-          break;
-      }
+      String model = switch (_selectedLanguage) {
+        'Dart' => _generateDartModel(className, decoded),
+        'Java' => _generateJavaModel(className, decoded),
+        'Kotlin' => _generateKotlinModel(className, decoded),
+        'Python' => _generatePythonModel(className, decoded),
+        'TypeScript' => _generateTsModel(className, decoded),
+        'Swift' => _generateSwiftModel(className, decoded),
+        _ => '',
+      };
 
       setState(() {
         _generatedModel = model;
@@ -96,17 +87,103 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
   }
 
   String _generateDartModel(String className, dynamic json) {
-    final buffer = StringBuffer('class $className {');
-    json.forEach((key, value) {
-      buffer.writeln('  final ${_getDartType(value)} $key;');
-    });
-    buffer.write('\n  $className({');
-    json.keys.forEach((k) => buffer.write('required this.$k, '));
-    buffer.write('});\n}');
-    return buffer.toString();
+    final classes = <String>[];
+
+    void generate(String name, Map<String, dynamic> obj) {
+      final buf = StringBuffer();
+      buf.writeln('class $name {');
+
+      obj.forEach((key, val) {
+        final type = _getDartType(val, key);
+        buf.writeln('  final $type $key;');
+      });
+
+      buf.write('\n  $name({');
+      obj.keys.forEach((k) => buf.write('required this.$k, '));
+      buf.writeln('});\n');
+
+      // fromJson factory
+      buf.writeln(
+        '  factory $name.fromJson(Map<String, dynamic> json) => $name(',
+      );
+      obj.forEach((key, val) {
+        if (val is Map<String, dynamic>) {
+          final sub = _capitalize(key);
+          generate(sub, val);
+          buf.writeln('    $key: $sub.fromJson(json["$key"]),');
+        } else if (val is List &&
+            val.isNotEmpty &&
+            val.first is Map<String, dynamic>) {
+          final sub = _capitalize(key);
+          generate(sub, val.first);
+          buf.writeln(
+            '    $key: List<$sub>.from(json["$key"].map((x) => $sub.fromJson(x))),',
+          );
+        } else {
+          buf.writeln('    $key: json["$key"],');
+        }
+      });
+      buf.writeln('  );\n');
+
+      // toJson method
+      buf.writeln('  Map<String, dynamic> toJson() => {');
+      obj.forEach((key, val) {
+        if (val is Map<String, dynamic>) {
+          buf.writeln('    "$key": $key.toJson(),');
+        } else if (val is List &&
+            val.isNotEmpty &&
+            val.first is Map<String, dynamic>) {
+          buf.writeln(
+            '    "$key": List<dynamic>.from($key.map((x) => x.toJson())),',
+          );
+        } else {
+          buf.writeln('    "$key": $key,');
+        }
+      });
+      buf.writeln('  };\n');
+
+      buf.writeln('}\n');
+      classes.insert(0, buf.toString());
+    }
+
+    // Start generating from the root
+    if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
+      json = json.first as Map<String, dynamic>;
+    }
+    if (json is Map<String, dynamic>) {
+      generate(className, json);
+      return classes.join('\n');
+    } else {
+      return '// Invalid JSON structure';
+    }
+  }
+
+  /// Helper to capitalize class names
+  String _capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+  /// Modified type-mapper to use key names for nested types
+  String _getDartType(dynamic val, String key) {
+    if (val is int) return 'int';
+    if (val is double) return 'double';
+    if (val is bool) return 'bool';
+    if (val is List) {
+      if (val.isNotEmpty && val.first is Map<String, dynamic>) {
+        return 'List<${_capitalize(key)}>';
+      }
+      return 'List<dynamic>';
+    }
+    if (val is Map<String, dynamic>) {
+      return _capitalize(key);
+    }
+    return 'String';
   }
 
   String _generateJavaModel(String className, dynamic json) {
+    if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
+      json = json.first;
+    }
+    if (json is! Map<String, dynamic>) return '// Invalid JSON structure';
+
     final buffer = StringBuffer('public class $className {\n');
     json.forEach((key, value) {
       buffer.writeln('    private ${_getJavaType(value)} $key;');
@@ -116,6 +193,11 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
   }
 
   String _generatePythonModel(String className, dynamic json) {
+    if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
+      json = json.first;
+    }
+    if (json is! Map<String, dynamic>) return '# Invalid JSON structure';
+
     final buffer = StringBuffer('class $className:\n');
     buffer.writeln('    def __init__(self, ');
     json.forEach((key, value) {
@@ -129,6 +211,11 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
   }
 
   String _generateTsModel(String className, dynamic json) {
+    if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
+      json = json.first;
+    }
+    if (json is! Map<String, dynamic>) return '// Invalid JSON structure';
+
     final buffer = StringBuffer('interface $className {\n');
     json.forEach((key, value) {
       buffer.writeln('  $key: ${_getTsType(value)};');
@@ -138,6 +225,11 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
   }
 
   String _generateKotlinModel(String className, dynamic json) {
+    if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
+      json = json.first;
+    }
+    if (json is! Map<String, dynamic>) return '// Invalid JSON structure';
+
     final buffer = StringBuffer('data class $className(\n');
     json.forEach((key, value) {
       buffer.writeln('    val $key: ${_getKotlinType(value)},');
@@ -147,6 +239,11 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
   }
 
   String _generateSwiftModel(String className, dynamic json) {
+    if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
+      json = json.first;
+    }
+    if (json is! Map<String, dynamic>) return '// Invalid JSON structure';
+
     final buffer = StringBuffer('struct $className: Codable {\n');
     json.forEach((key, value) {
       buffer.writeln('    let $key: ${_getSwiftType(value)}');
@@ -155,65 +252,64 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
     return buffer.toString();
   }
 
-  String _getDartType(dynamic value) =>
-      value is int
-          ? 'int'
-          : value is double
-          ? 'double'
-          : value is bool
-          ? 'bool'
-          : 'String';
+  String _getJavaType(dynamic value) {
+    if (value is int) return 'int';
+    if (value is double) return 'double';
+    if (value is bool) return 'boolean';
+    if (value is List) return 'List<Object>';
+    if (value is Map) return 'Map<String, Object>';
+    return 'String';
+  }
 
-  String _getJavaType(dynamic value) =>
-      value is int
-          ? 'int'
-          : value is double
-          ? 'double'
-          : value is bool
-          ? 'boolean'
-          : 'String';
+  String _getPythonType(dynamic value) {
+    if (value is int) return 'int';
+    if (value is double) return 'float';
+    if (value is bool) return 'bool';
+    if (value is List) return 'list';
+    if (value is Map) return 'dict';
+    return 'str';
+  }
 
-  String _getPythonType(dynamic value) =>
-      value is int
-          ? 'int'
-          : value is double
-          ? 'float'
-          : value is bool
-          ? 'bool'
-          : 'str';
+  String _getTsType(dynamic value) {
+    if (value is int || value is double) return 'number';
+    if (value is bool) return 'boolean';
+    if (value is List) return 'any[]';
+    if (value is Map) return 'Record<string, any>';
+    return 'string';
+  }
 
-  String _getTsType(dynamic value) =>
-      value is int
-          ? 'number'
-          : value is double
-          ? 'number'
-          : value is bool
-          ? 'boolean'
-          : 'string';
+  String _getKotlinType(dynamic value) {
+    if (value is int) return 'Int';
+    if (value is double) return 'Double';
+    if (value is bool) return 'Boolean';
+    if (value is List) return 'List<Any>';
+    if (value is Map) return 'Map<String, Any>';
+    return 'String';
+  }
 
-  String _getKotlinType(dynamic value) =>
-      value is int
-          ? 'Int'
-          : value is double
-          ? 'Double'
-          : value is bool
-          ? 'Boolean'
-          : 'String';
+  String _getSwiftType(dynamic value) {
+    if (value is int) return 'Int';
+    if (value is double) return 'Double';
+    if (value is bool) return 'Bool';
+    if (value is List) return '[Any]';
+    if (value is Map) return '[String: Any]';
+    return 'String';
+  }
 
-  String _getSwiftType(dynamic value) =>
-      value is int
-          ? 'Int'
-          : value is double
-          ? 'Double'
-          : value is bool
-          ? 'Bool'
-          : 'String';
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _jsonController.dispose();
+    _classNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = widget.isDarkMode ? Colors.black : Colors.white;
-    final textColor = widget.isDarkMode ? Colors.white : Colors.black;
-    final cardColor = widget.isDarkMode ? Colors.grey[900] : Colors.grey[100];
+    final isDark = widget.isDarkMode;
+    final bgColor = isDark ? Colors.black : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black;
+    final cardColor = isDark ? Colors.grey[900] : Colors.grey[100];
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -227,31 +323,51 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
           controller: _tabController,
           labelColor: Colors.blue,
           unselectedLabelColor: textColor,
+          isScrollable: true,
           tabs: const [Tab(text: 'Formatter'), Tab(text: 'Model Generator')],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          // Formatter Page
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _jsonController,
-                    maxLines: null,
-                    expands: true,
-                    style: TextStyle(color: textColor),
-                    decoration: InputDecoration(
-                      labelText: 'Enter JSON here',
-                      labelStyle: TextStyle(color: textColor),
-                      filled: true,
-                      fillColor: cardColor,
-                      border: OutlineInputBorder(),
-                    ),
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      TextField(
+                        controller: _jsonController,
+                        maxLines: null,
+                        expands: true,
+                        style: TextStyle(color: textColor),
+                        decoration: InputDecoration(
+                          labelText: 'Enter or Paste JSON here',
+                          labelStyle: TextStyle(color: textColor),
+                          filled: true,
+                          fillColor: cardColor,
+                          border: const OutlineInputBorder(),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.copy, size: 20),
+                        color: textColor,
+                        tooltip: 'Copy JSON',
+                        onPressed: () {
+                          Clipboard.setData(
+                            ClipboardData(text: _jsonController.text),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Copied JSON to Clipboard'),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -263,18 +379,9 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
                   const SizedBox(height: 10),
                   Text(_error!, style: const TextStyle(color: Colors.red)),
                 ],
-                if (_formattedJson != null) ...[
-                  const SizedBox(height: 10),
-                  SelectableText(
-                    _formattedJson!,
-                    style: TextStyle(color: textColor),
-                  ),
-                ],
               ],
             ),
           ),
-
-          // Model Generator Page
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -290,7 +397,7 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
                           labelStyle: TextStyle(color: textColor),
                           filled: true,
                           fillColor: cardColor,
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                     ),
@@ -327,15 +434,14 @@ class _JsonFormatterScreenState extends State<JsonFormatterScreen>
                 if (_generatedModel != null) ...[
                   const SizedBox(height: 10),
                   Expanded(
-                    child: Container(
+                    child: HighlightView(
+                      _generatedModel!,
+                      language: _selectedLanguage.toLowerCase(),
+                      theme: monokaiSublimeTheme,
                       padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: cardColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: SelectableText(
-                        _generatedModel!,
-                        style: TextStyle(color: textColor),
+                      textStyle: const TextStyle(
+                        fontFamily: 'Courier New',
+                        fontSize: 14,
                       ),
                     ),
                   ),
