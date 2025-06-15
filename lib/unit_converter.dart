@@ -17,11 +17,13 @@ class UnitConverter extends StatefulWidget {
 class _UnitConverterState extends State<UnitConverter> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+
+  // ✅ Use GlobalObjectKey to ensure uniqueness and avoid duplication error
   final Map<String, GlobalKey> _categoryKeys = {};
   final Map<String, Map<String, GlobalKey>> _subcategoryKeys = {};
+
   String _selectedCategory = '';
 
-  // Filter categories based on search
   List<String> get _filteredCategories {
     if (_searchController.text.isEmpty) return subcategoryMap.keys.toList();
     return subcategoryMap.keys
@@ -32,12 +34,10 @@ class _UnitConverterState extends State<UnitConverter> {
         .toList();
   }
 
-  // Filter subcategories based on search
   List<String> get _filteredSubcategories {
     String searchQuery = _searchController.text.toLowerCase();
     List<String> filteredSubcategories = [];
 
-    // Loop through all categories and their subcategories
     for (String category in subcategoryMap.keys) {
       List<String> subcategoriesForCategory = subcategoryMap[category]!;
       filteredSubcategories.addAll(
@@ -53,18 +53,19 @@ class _UnitConverterState extends State<UnitConverter> {
   @override
   void initState() {
     super.initState();
-    // Initialize keys for categories and subcategories
+
     for (String category in subcategoryMap.keys) {
-      _categoryKeys[category] = GlobalKey();
+      _categoryKeys[category] = GlobalObjectKey('category::$category');
       _subcategoryKeys[category] = {};
       for (String subcat in subcategoryMap[category]!) {
-        _subcategoryKeys[category]![subcat] = GlobalKey();
+        _subcategoryKeys[category]![subcat] = GlobalObjectKey(
+          'subcat::$category::$subcat',
+        );
       }
     }
   }
 
   void _scrollToCategory(String category) {
-    // Scroll to the first subcategory inside the selected category
     final firstSubcategory = subcategoryMap[category]?.first;
     if (firstSubcategory != null) {
       final keyContext =
@@ -78,7 +79,6 @@ class _UnitConverterState extends State<UnitConverter> {
         return;
       }
     }
-    // Fallback scroll to category header if no subcategory found
     final categoryContext = _categoryKeys[category]?.currentContext;
     if (categoryContext != null) {
       Scrollable.ensureVisible(
@@ -124,7 +124,6 @@ class _UnitConverterState extends State<UnitConverter> {
                 controller: _searchController,
                 onChanged: () {
                   setState(() {});
-                  // Scroll to the first matching category when search changes
                   String query = _searchController.text;
                   for (String category in subcategoryMap.keys) {
                     for (String subcategory in subcategoryMap[category]!) {
@@ -199,11 +198,9 @@ class _UnitConverterState extends State<UnitConverter> {
                     const SizedBox(height: 20),
                     ...subcategoryMap.entries.map((entry) {
                       final category = entry.key;
-                      final firstSubcategory = subcategoryMap[category]?.first;
-                      final keyToPass =
-                          _categoryKeys[category]; // this is the header key
+                      final keyToPass = _categoryKeys[category];
                       return SubcategorySection(
-                        key: _categoryKeys[category],
+                        key: keyToPass,
                         category: category,
                         searchText: _searchController.text,
                         firstSubcategoryKey: keyToPass,

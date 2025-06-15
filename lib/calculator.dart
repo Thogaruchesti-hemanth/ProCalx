@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_calculator/provider/theme_provider.dart';
+import 'package:smart_calculator/screens/calculator_screen.dart';
 import 'package:smart_calculator/unit_converter.dart';
 import 'package:smart_calculator/utils/calculator_engine.dart';
 import 'package:smart_calculator/utils/preferences_service.dart';
-
-import 'screens/calculator_screen.dart';
 
 class CalculatorApp extends StatefulWidget {
   const CalculatorApp({super.key});
@@ -15,8 +15,6 @@ class CalculatorApp extends StatefulWidget {
 }
 
 class _CalculatorAppState extends State<CalculatorApp> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   String _expression = '';
   String _result = '0';
   List<String> _history = [];

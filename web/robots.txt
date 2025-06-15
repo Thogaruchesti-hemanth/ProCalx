@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pro-calax.web.app/sitemap.xml
